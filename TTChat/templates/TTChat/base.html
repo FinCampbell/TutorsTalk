@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static '/base.css' %}">
+  </head>
+<body>
+  <div id="outflex">
+  <header>
+  <ul>
+    <li><a href="/">Home</a></li>  
+  </ul>
+</header>
+  <main>
+  {% block content %}
+  {% endblock %}
+  {% block extra_js %}
+  {% endblock extra_js %}
+</main>
+  <footer>
+  Yalnif.pw
+</footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<html>
+<head>
+    <link rel="stylesheet" href="{% static '/base.css' %}">
+  </head>
+<body>
+  <div id="outflex">
+  <header>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="{% url 'login' %}">Login</a></li>
+    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+    <li><a href="{% url 'TTChat' %}">TTChat</a></li>
+    {% if user.is_authenticated %}
+      <li id="right">
+        <div class="dropdown">
+        <a class="dropbtn">{{user.username}}</a>
+        <div class="dropdown-content">
+          <a href="{% url 'profile' %}">Profile</a>
+          <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        </div>
+      </li>
+    {% else %}
+
+    {% endif %}
+  </ul>
+</header>
+  <main>
+  {% block content %}
+  {% endblock %}
+  {% block extra_js %}
+  {% endblock extra_js %}
+</main>
+  <footer>
+  Yalnif.pw
+</footer>
+  </div>
+</body>
+</html>

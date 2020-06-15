@@ -1,0 +1,56 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>TTChat Room</title>
+  </head>
+  <body>
+    <textarea id='log' cols="100" rows="20"></textarea><br/>
+    <input id='message-input' type=text size="100"/><br/>
+    <input id="message-submit" type="button" size='100' value="Enter"/>
+  </body>
+  <script>
+  var roomName = {{room_name_json}};
+  
+  var chatSocket = new WebSocket(
+      'ws://'+window.location.host+
+      '/ws/TTChat/'+roomName+'/');
+  
+  chatSocket.onmessage=function(e){
+    var data = JSON.parse(e.data);
+    var message = data['message'];
+    var user = data['user'];
+    var timest = data['timest'];
+    document.querySelector('#log').value += (timest+' : '+user+' - '+message+"\n");
+  };
+  
+  chatSocket.onclose=function(e){
+    console.error('ChatSock Closed Unexpectedly');
+  };  
+    
+  document.querySelector('#message-input').focus();
+  document.querySelector('#message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {
+            document.querySelector('#message-submit').click();
+        }
+    };
+  
+  document.querySelector('#message-submit').onclick = function(e){
+    var messageInputDom = document.querySelector('#message-input');
+    var message = messageInputDom.value;
+    var user = '{{request.user.username}}'
+    var timest = new Date().toLocaleTimeString('en-GB', { hour: "numeric", 
+                                             minute: "numeric"});
+    chatSocket.send(JSON.stringify({
+      'message' : message,
+      'user' : user,
+      'timest' : timest,
+    }));
+    
+    messageInputDom.value = '';
+  };
+  </script>
+</html>
+{% endblock content %}

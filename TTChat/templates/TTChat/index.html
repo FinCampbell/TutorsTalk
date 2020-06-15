@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>TTChat</title>
+  </head>
+  <body>
+    <p id="margin">Chat Room:</p><br/>
+    <input id="room-input" type="text" size="100"/><br/>
+    <input id="room-submit" type="submit" value="Enter"/>
+  </body>
+  <script>
+    document.querySelector('#room-input').focus();
+    document.querySelector('#room-input').onkeyup = function(e) {
+        if (e.keyCode === 13) { 
+            document.querySelector('#room-submit').click();
+        }
+    };
+
+    document.querySelector('#room-submit').onclick = function(e) {
+        var roomName = document.querySelector('#room-input').value;
+        window.location.pathname = '/TTChat/' + roomName + '/';
+    };
+</script>
+</html>
+{% endblock content %}
